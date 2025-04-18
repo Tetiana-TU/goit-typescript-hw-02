@@ -1,6 +1,15 @@
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({ alt_description, urls, updateModalStateData }) => {
+type PropsImageCard = {
+  alt_description: string;
+  urls: { regular: string; small: string };
+  updateModalStateData: (url: string, alt: string) => void;
+};
+const ImageCard = ({
+  alt_description,
+  urls,
+  updateModalStateData,
+}: PropsImageCard) => {
   return (
     <div
       className={css.card}
