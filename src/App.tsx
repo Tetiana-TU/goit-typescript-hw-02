@@ -8,7 +8,7 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import { Toaster } from "react-hot-toast";
 import fetchImages from "./services/api";
-import { boolean } from "yup";
+
 interface Image {
   id: number;
   alt_description: string;
