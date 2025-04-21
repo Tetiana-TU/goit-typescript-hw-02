@@ -8,20 +8,29 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import { Toaster } from "react-hot-toast";
 import fetchImages from "./services/api";
+import { boolean } from "yup";
+interface Image {
+  id: number;
+  alt_description: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+}
 
 function App() {
-  const [page, setPage] = useState(1);
-  const [queryValue, setQueryValue] = useState("");
-  const [gallery, setGallery] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState<number>(1);
+  const [queryValue, setQueryValue] = useState<string>("");
+  const [gallery, setGallery] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalImage, setModalImage] = useState("");
-  const [altDescription, setAltDescription] = useState("");
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [modalImage, setModalImage] = useState<string>("");
+  const [altDescription, setAltDescription] = useState<string>("");
 
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null!);
   const maxImages = 50;
 
   useEffect(() => {
@@ -58,27 +67,27 @@ function App() {
     ref.current.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [page, gallery]);
 
-  const handleQuery = (newQuery) => {
+  const handleQuery = (newQuery: string): void => {
     setQueryValue(newQuery);
     setGallery([]);
     setPage(1);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage(page + 1);
   };
 
   const isActive = useMemo(() => page === totalPages, [page, totalPages]);
 
-  const openModal = () => {
+  const openModal = (): void => {
     setIsOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setIsOpen(false);
   };
 
-  const updateModalStateData = (src, alt) => {
+  const updateModalStateData = (src: string, alt: string): void => {
     setModalImage(src);
     setAltDescription(alt);
   };
@@ -94,7 +103,9 @@ function App() {
         />
       )}
       {isLoading && <Loader />}
-      {isError && <ErrorMessage />}
+      {isError && (
+        <ErrorMessage message="Щось пішло не так. Спробуйте ще раз." />
+      )}
       {gallery.length > 0 && !isLoading && !isError && (
         <LoadMoreBtn handleLoadMore={handleLoadMore} isActive={isActive} />
       )}
