@@ -17,6 +17,11 @@ interface Image {
     regular: string;
   };
 }
+interface fetchImagesResponse {
+  total: number;
+  total_pages: number;
+  results: Image[];
+}
 
 function App() {
   const [page, setPage] = useState<number>(1);
@@ -40,7 +45,7 @@ function App() {
       try {
         setIsLoading(true);
         setIsError(false);
-        const data = await fetchImages(queryValue, page);
+        const data: fetchImagesResponse = await fetchImages(queryValue, page);
         console.log("data: ", data);
         if (data.total === 0) return;
 
